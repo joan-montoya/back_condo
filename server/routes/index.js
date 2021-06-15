@@ -10,6 +10,6 @@ app.use('/compra', require('./tienda/compra'));
 app.use('/condomino', require('./condominos/condominos'));
 app.use('/mensaje', require('./mensajes/mensaje'));
 app.use('/visitas', require('./condominos/visitas'));
-
+app.use('/comunicado', require('./mensajes/comunicado'));
 
 module.exports = app;
