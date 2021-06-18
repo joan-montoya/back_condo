@@ -18,6 +18,10 @@ const mensajeSchema = new Schema({
     blnActivo: {
         type: Boolean,
         default: true
+    },
+    blnLeido: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: {

@@ -36,6 +36,7 @@ app.get('/', async(req, res) => {
                     'strMensaje':'$strMensaje',
                     'strRemitente':'$strRemitente',
                     'strReceptor':'$strReceptor',
+                    'blnLeido':'$blnLeido',
                     'Remitente': {
                             $arrayElemAt: [
                                 {
@@ -168,9 +169,9 @@ app.post('/', async(req, res) => {
 app.put('/', async(req, res) => {
     try {
 
-        const idPersona = req.query.idPersona;
+        const idMensaje = req.query.idMensaje;
 
-        if (idPersona == '') {
+        if (idMensaje == '') {
             return res.status(400).send({
                 estatus: '400',
                 err: true,
@@ -179,9 +180,9 @@ app.put('/', async(req, res) => {
             });
         }
 
-        req.body._id = idPersona;
+        req.body._id = idMensaje;
 
-        const personaEncontrada = await UsuarioModel.findById(idPersona);
+        const personaEncontrada = await MensajeModel.findById(idMensaje);
 
         if (!personaEncontrada)
             return res.status(404).send({
@@ -191,9 +192,9 @@ app.put('/', async(req, res) => {
                 cont: personaEncontrada
             });
 
-        const newPersona = new UsuarioModel(req.body);
+        const newMensaje = new MensajeModel(req.body);
 
-        let err = newPersona.validateSync();
+        let err = newMensaje.validateSync();
 
         if (err) {
             return res.status(400).json({
@@ -206,9 +207,9 @@ app.put('/', async(req, res) => {
             });
         }
 
-        const personaActualizada = await UsuarioModel.findByIdAndUpdate(idPersona, { $set: newPersona }, { new: true });
+        const mensajeActualizada = await MensajeModel.findByIdAndUpdate(idMensaje, { $set: newMensaje }, { new: true });
 
-        if (!personaActualizada) {
+        if (!mensajeActualizada) {
             return res.status(400).json({
                 ok: false,
                 resp: 400,
@@ -221,7 +222,7 @@ app.put('/', async(req, res) => {
                 resp: 200,
                 msg: 'Success: Se actualizo la persona correctamente.',
                 cont: {
-                    personaActualizada
+                    mensajeActualizada
                 }
             });
         }
