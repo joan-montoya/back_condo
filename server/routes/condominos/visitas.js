@@ -6,7 +6,7 @@ const app = express();
 
 const email = require('../../libraries/email');
 
-// http://localhost:3000/api/usuario/
+// http://localhost:3000/api/visitas/
 app.get('/', async(req, res) => {
     try {
         if (req.query.idPersona) req.queryMatch._id = req.query.idPersona;
@@ -81,7 +81,7 @@ app.get('/', async(req, res) => {
     }
 });
 
-// http://localhost:3000/api/usuario/
+// http://localhost:3000/api/visitas/
 app.post('/', async(req, res) => {
 
     try {
@@ -133,7 +133,7 @@ app.post('/', async(req, res) => {
     }
 });
 
-// http://localhost:3000/api/usuario/?idPersona=603939becf1db633f87595b2
+// http://localhost:3000/api/visitas/?idVisitas=603939becf1db633f87595b2
 app.put('/', async(req, res) => {
     try {
 
@@ -207,7 +207,7 @@ app.put('/', async(req, res) => {
     }
 });
 
-// http://localhost:3000/api/usuario/?idPersona=603939becf1db633f87595b2
+// http://localhost:3000/api/visitas/?idVisita=603939becf1db633f87595b2
 app.delete('/', async(req, res) => {
 
     try {
