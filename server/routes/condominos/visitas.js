@@ -137,9 +137,9 @@ app.post('/', async(req, res) => {
 app.put('/', async(req, res) => {
     try {
 
-        const idPersona = req.query.idPersona;
+        const idVisita = req.query.idVisita;
 
-        if (idPersona == '') {
+        if (idVisita == '') {
             return res.status(400).send({
                 estatus: '400',
                 err: true,
@@ -148,49 +148,49 @@ app.put('/', async(req, res) => {
             });
         }
 
-        req.body._id = idPersona;
+        req.body._id = idVisita;
 
-        const personaEncontrada = await UsuarioModel.findById(idPersona);
+        const visitaEncontrada = await VisitasModel.findById(idVisita);
 
-        if (!personaEncontrada)
+        if (!visitaEncontrada)
             return res.status(404).send({
                 estatus: '404',
                 err: true,
-                msg: 'Error: No se encontro la persona en la base de datos.',
-                cont: personaEncontrada
+                msg: 'Error: No se encontro la visita en la base de datos.',
+                cont: visitaEncontrada
             });
 
-        const newPersona = new UsuarioModel(req.body);
+        const newVisita = new VisitasModel(req.body);
 
-        let err = newPersona.validateSync();
+        let err = newVisita.validateSync();
 
         if (err) {
             return res.status(400).json({
                 ok: false,
                 resp: 400,
-                msg: 'Error: Error al Insertar la persona.',
+                msg: 'Error: Error al Insertar la visita.',
                 cont: {
                     err
                 }
             });
         }
 
-        const personaActualizada = await UsuarioModel.findByIdAndUpdate(idPersona, { $set: newPersona }, { new: true });
+        const visitaActualizada = await VisitasModel.findByIdAndUpdate(idVisita, { $set: newVisita }, { new: true });
 
-        if (!personaActualizada) {
+        if (!visitaActualizada) {
             return res.status(400).json({
                 ok: false,
                 resp: 400,
-                msg: 'Error: Al intentar actualizar la persona.',
+                msg: 'Error: Al intentar actualizar la visita.',
                 cont: 0
             });
         } else {
             return res.status(200).json({
                 ok: true,
                 resp: 200,
-                msg: 'Success: Se actualizo la persona correctamente.',
+                msg: 'Success: Se actualizo la visita correctamente.',
                 cont: {
-                    personaActualizada
+                    visitaActualizada
                 }
             });
         }
@@ -199,7 +199,7 @@ app.put('/', async(req, res) => {
         res.status(500).send({
             estatus: '500',
             err: true,
-            msg: 'Error: Error al actualizar la persona.',
+            msg: 'Error: Error al actualizar la visita.',
             cont: {
                 err: Object.keys(err).length === 0 ? err.message : err
             }
@@ -212,7 +212,7 @@ app.delete('/', async(req, res) => {
 
     try {
 
-        if (req.query.idPersona == '') {
+        if (req.query.idVisita == '') {
             return res.status(400).send({
                 estatus: '400',
                 err: true,
@@ -221,35 +221,35 @@ app.delete('/', async(req, res) => {
             });
         }
 
-        idPersona = req.query.idPersona;
+        idVisita = req.query.idVisita;
         blnActivo = req.body.blnActivo;
 
-        const personaEncontrada = await UsuarioModel.findById(idPersona);
+        const visitaEncontrada = await VisitasModel.findById(idVisita);
 
-        if (!personaEncontrada)
+        if (!visitaEncontrada)
             return res.status(404).send({
                 estatus: '404',
                 err: true,
-                msg: 'Error: No se encontro la persona en la base de datos.',
-                cont: personaEncontrada
+                msg: 'Error: No se encontro la visita en la base de datos.',
+                cont: visitaEncontrada
             });
 
-        const personaActualizada = await UsuarioModel.findByIdAndUpdate(idPersona, { $set: { blnActivo } }, { new: true });
+        const visitaActualizada = await VisitasModel.findByIdAndUpdate(idVisita, { $set: { blnActivo: 'false' } }, { new: true });
 
-        if (!personaActualizada) {
+        if (!visitaActualizada) {
             return res.status(400).json({
                 ok: false,
                 resp: 400,
-                msg: 'Error: Al intentar eliminar la persona.',
+                msg: 'Error: Al intentar eliminar la visita.',
                 cont: 0
             });
         } else {
             return res.status(200).json({
                 ok: true,
                 resp: 200,
-                msg: `Success: Se a ${blnActivo === 'true'? 'activado': 'desactivado'} la persona correctamente.`,
+                msg: `Success: Se a ${blnActivo === 'true'? 'activado': 'desactivado'} la visita correctamente.`,
                 cont: {
-                    personaActualizada
+                    visitaActualizada
                 }
             });
         }
@@ -259,7 +259,7 @@ app.delete('/', async(req, res) => {
         res.status(500).send({
             estatus: '500',
             err: true,
-            msg: 'Error: Error al eliminar a la persona.',
+            msg: 'Error: Error al eliminar a la visita.',
             cont: {
                 err: Object.keys(err).length === 0 ? err.message : err
             }

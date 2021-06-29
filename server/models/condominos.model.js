@@ -19,6 +19,10 @@ const condoSchema = new Schema({
         type: String,
         required: [true, 'Favor de insertar su correo.']
     },
+    strPassword: {
+        type: String,
+        require: [true, 'Todo usuario necesita una contraseña']
+    },
     strDireccion:{
         type: String,
         required: [true, 'Favor de insertar su direccion.']
