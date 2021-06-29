@@ -6,7 +6,7 @@ const app = express();
 
 const email = require('../../libraries/email');
 
-// http://localhost:3000/api/usuario/
+// http://localhost:3000/api/condominos/
 app.get('/', async(req, res) => {
     try {
         if (req.query.idPersona) req.queryMatch._id = req.query.idPersona;
@@ -45,7 +45,7 @@ app.get('/', async(req, res) => {
     }
 });
 
-// http://localhost:3000/api/usuario/
+// http://localhost:3000/api/condominos/
 app.post('/', async(req, res) => {
 
     try {
@@ -107,7 +107,7 @@ app.post('/', async(req, res) => {
     }
 });
 
-// http://localhost:3000/api/usuario/?idPersona=603939becf1db633f87595b2
+// http://localhost:3000/api/condominos/?idPersona=603939becf1db633f87595b2
 app.put('/', async(req, res) => {
     try {
 
@@ -124,7 +124,7 @@ app.put('/', async(req, res) => {
 
         req.body._id = idPersona;
 
-        const personaEncontrada = await UsuarioModel.findById(idPersona);
+        const personaEncontrada = await CondominosModel.findById(idPersona);
 
         if (!personaEncontrada)
             return res.status(404).send({
@@ -134,7 +134,7 @@ app.put('/', async(req, res) => {
                 cont: personaEncontrada
             });
 
-        const newPersona = new UsuarioModel(req.body);
+        const newPersona = new CondominosModel(req.body);
 
         let err = newPersona.validateSync();
 
@@ -149,7 +149,7 @@ app.put('/', async(req, res) => {
             });
         }
 
-        const personaActualizada = await UsuarioModel.findByIdAndUpdate(idPersona, { $set: newPersona }, { new: true });
+        const personaActualizada = await CondominosModel.findByIdAndUpdate(idPersona, { $set: newPersona }, { new: true });
 
         if (!personaActualizada) {
             return res.status(400).json({
@@ -181,7 +181,7 @@ app.put('/', async(req, res) => {
     }
 });
 
-// http://localhost:3000/api/usuario/?idPersona=603939becf1db633f87595b2
+// http://localhost:3000/api/condominos/?idPersona=603939becf1db633f87595b2
 app.delete('/', async(req, res) => {
 
     try {
@@ -198,7 +198,7 @@ app.delete('/', async(req, res) => {
         idPersona = req.query.idPersona;
         blnActivo = req.body.blnActivo;
 
-        const personaEncontrada = await UsuarioModel.findById(idPersona);
+        const personaEncontrada = await CondominosModel.findById(idPersona);
 
         if (!personaEncontrada)
             return res.status(404).send({
@@ -208,7 +208,7 @@ app.delete('/', async(req, res) => {
                 cont: personaEncontrada
             });
 
-        const personaActualizada = await UsuarioModel.findByIdAndUpdate(idPersona, { $set: { blnActivo } }, { new: true });
+        const personaActualizada = await CondominosModel.findByIdAndUpdate(idPersona, { $set: { blnActivo } }, { new: true });
 
         if (!personaActualizada) {
             return res.status(400).json({
