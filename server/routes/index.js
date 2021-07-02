@@ -11,5 +11,7 @@ app.use('/condomino', require('./condominos/condominos'));
 app.use('/mensaje', require('./mensajes/mensaje'));
 app.use('/visitas', require('./condominos/visitas'));
 app.use('/comunicado', require('./mensajes/comunicado'));
+app.use('/lugares', require('./Reservaciones/lugares'));
+app.use('/reservaciones', require('./Reservaciones/reservaciones'));
 
 module.exports = app;
