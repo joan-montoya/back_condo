@@ -8,8 +8,8 @@ const reservacionesSchema = new Schema({
         ref: 'condominos'
     },
     idLugar: {
-        type: String,
-        required: [true, 'Favor de insertar una fecha de inicio.']
+        type: mongoose.Types.ObjectId,
+        ref: 'lugares'
     },
     dtaFechaInicio: {
         type: String,

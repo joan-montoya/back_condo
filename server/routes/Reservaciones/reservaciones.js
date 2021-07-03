@@ -10,7 +10,68 @@ const app = express();
 app.get('/', async(req, res) => {
     try {
 
-        const reservacion = await ReservacionesModel.find();
+        const reservacion = await ReservacionesModel.aggregate([   
+            {
+                $lookup: {
+                    from: 'condominos', //Nombre de la tabla
+                    localField: 'idPersonaReserva', //En que campo lo tengo
+                    foreignField: '_id',
+                    as: 'Usuario'
+                }
+                
+            },
+            {
+                $lookup: {
+                    from: 'lugares', //Nombre de la tabla
+                    localField: 'idLugar', //En que campo lo tengo
+                    foreignField: '_id',
+                    as: 'Lugares'
+                }
+                
+            },
+            {
+                $project: {
+                    'id': 1,
+                    '_id':'$_id',
+                    'idPersonaReserva':'$idPersonaReserva',
+                    'idLugar':'$idLugar',
+                    'dtaFechaInicio':'$dtaFechaInicio',
+                    'dtaFechaTermino':'$dtaFechaTermino',
+                    'Persona': {
+                            $arrayElemAt: [
+                                {
+                                    $filter: {
+                                        input: '$Usuario',
+                                        as: 'usuario',
+                                        cond: {
+                                            $eq: ['$idPersonaReserva', '$$usuario._id']
+                                        }
+                                    }
+                                }, 0
+                            ]
+
+                        },
+                        'Lugar': {
+                            $arrayElemAt: [
+                                {
+                                    $filter: {
+                                        input: '$Lugares',
+                                        as: 'lugar',
+                                        cond: {
+                                            $eq: ['$idLugar', '$$lugar._id']
+                                        }
+                                    }
+                                }, 0
+                            ]
+
+                        },
+                    
+                    'created_at':1,
+                    'updated_at':1,
+                }
+            }
+            
+        ])
         if (reservacion.length <= 0) {
             res.status(404).send({
                 estatus: '404',
@@ -60,16 +121,6 @@ app.post('/', async(req, res) => {
                 }
             });
         }
-
-        const reservacionEncontrada = await ReservacionesModel.findOne({ idLugar: { $regex: `^${lug.idLugar}$`, $options: 'i' } });
-        if (reservacionEncontrada) return res.status(400).json({
-            ok: false,
-            resp: 400,
-            msg: 'El lugar que desea registrar ya se encuentra en uso.',
-            cont: {
-                lugar: reservacionEncontrada.idLugar
-            }
-        });
 
         const reserva = await lug.save();
         if (reserva.length <= 0) {
