@@ -45,6 +45,57 @@ app.get('/', async(req, res) => {
     }
 });
 
+// http://localhost:3000/api/condomino/?idPersona=60b722233f59fb10e4e5128
+app.get('/', async(req, res) => {
+    try {
+
+        const idPersona = req.query.idPersona;
+
+        if (idPersona == '') {
+            return res.status(400).send({
+                estatus: '400',
+                err: true,
+                msg: 'Error: No se envio un id valido.',
+                cont: 0
+            });
+        }
+
+        req.body._id = idPersona;
+
+        const usuario = await CondominosModel.findById(idPersona);
+
+        if (!usuario){
+            return res.status(404).send({
+                estatus: '404',
+                err: true,
+                msg: 'Error: No se encontro la persona en la base de datos.',
+                cont: usuario
+            });
+        }else{
+            res.status(200).send({
+                estatus: '200',
+                err: false,
+                msg: 'Informacion obtenida correctamente.',
+                cont: {
+                    usuario
+                }
+            });
+        }
+            
+
+
+    } catch (err) {
+        res.status(500).send({
+            estatus: '500',
+            err: true,
+            msg: 'Error: Error al buscar la persona.',
+            cont: {
+                err: Object.keys(err).length === 0 ? err.message : err
+            }
+        });
+    }
+});
+
 // http://localhost:3000/api/condominos/
 app.post('/', async(req, res) => {
 
