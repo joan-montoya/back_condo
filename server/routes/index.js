@@ -14,5 +14,6 @@ app.use('/comunicado', require('./mensajes/comunicado'));
 app.use('/lugares', require('./Reservaciones/lugares'));
 app.use('/reservaciones', require('./Reservaciones/reservaciones'));
 app.use('/alertas', require('./mensajes/alertas'));
+app.use('/ventas', require('./mensajes/market'));
 
 module.exports = app;
