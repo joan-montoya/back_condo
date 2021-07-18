@@ -15,5 +15,7 @@ app.use('/lugares', require('./Reservaciones/lugares'));
 app.use('/reservaciones', require('./Reservaciones/reservaciones'));
 app.use('/alertas', require('./mensajes/alertas'));
 app.use('/ventas', require('./mensajes/market'));
+app.use('/cuentas', require('./condominos/cuentas'));
+app.use('/pagos', require('./condominos/pago'));
 
 module.exports = app;
